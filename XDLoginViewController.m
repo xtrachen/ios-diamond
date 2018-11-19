@@ -10,6 +10,8 @@
 #import "XDNetworkManager.h"
 
 #import "XDHomeViewController.h"
+#import "XDUploadViewController.h"
+
 #import "XDUser.h"
 
 
@@ -70,15 +72,8 @@
         
         if ([uid isKindOfClass:[NSString class]] && [uid length] > 0) {
             
-            [XDUser defaultManager].uid = uid;
-            
-            XDHomeViewController *vc = [[XDHomeViewController alloc] initWithNibName:@"XDHomeViewController" bundle:nil];
-            
-            [self.navigationController pushViewController:vc animated:YES];
-            
+            [self gotoUpdateView];
         }
-        
-
         
 //        __weak XDLoginViewController *weakself = self;
 //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -97,6 +92,21 @@
     
 }
 
+- (void)gotoUpdateView
+{
+    XDUploadViewController *vc = [[XDUploadViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+- (void)gotoMainView:(NSString *)uid
+{
+    [XDUser defaultManager].uid = uid;
+    XDHomeViewController *vc = [[XDHomeViewController alloc] initWithNibName:@"XDHomeViewController" bundle:nil];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField;              // called when 'return' key pressed. return NO to ignore.
 {
     if (textField==self.phonefield) {
@@ -106,6 +116,7 @@
     }
     return NO;
 }
+
 
 
 
