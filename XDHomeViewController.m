@@ -12,6 +12,10 @@
 #import "XDProductDetailInfo.h"
 
 
+#import <Qiniu/QiniuSDK.h>
+
+
+
 @interface XDHomeViewController () <UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *array;
@@ -94,6 +98,19 @@
     } failure:^(NSString * _Nullable errorMessage) {
         NSLog(@"%@",errorMessage);
     }];
+}
+
+- (void)uploadWithToken:(NSString *)token
+{
+    QNUploadManager *upManager = [[QNUploadManager alloc] init];
+    NSData *data = [@"Hello, World!" dataUsingEncoding : NSUTF8StringEncoding];
+    [upManager putData:data
+                   key:@"hello"
+                 token:token
+              complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                  NSLog(@"%@", info);
+                  NSLog(@"%@", resp);
+              } option:nil];
 }
 
 
